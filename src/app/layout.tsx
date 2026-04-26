@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { LenisProvider } from "@/components/providers/lenis-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
-const lato = Lato({
+const manrope = Manrope({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,10 +30,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", lato.variable, "font-sans")}
+      className={cn(
+        "h-full",
+        "antialiased",
+        manrope.variable,
+        cormorant.variable,
+        "font-sans",
+      )}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
-        <LenisProvider>{children}</LenisProvider>
+      <body data-theme="mesopotamia" className="min-h-full flex flex-col">
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <LenisProvider>{children}</LenisProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
